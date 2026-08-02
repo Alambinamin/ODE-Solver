@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODE Solver &amp; Comparative Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="js/solvers.js" defer></script>
+  <script src="js/presets.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>ODE Solver &amp; Comparative Dashboard</h1>
+    <p class="subtitle">Solve <code>y′ = f(t, y)</code> with Taylor, Euler, Heun &amp; Runge–Kutta — then compare accuracy.</p>
+  </header>
+
+  <main class="layout">
+    <!-- Controls -->
+    <section class="card controls" aria-label="Controls">
+      <h2>Problem setup</h2>
+
+      <label class="field">
+        <span>Preset ODE</span>
+        <select id="preset"></select>
+      </label>
+
+      <label class="field">
+        <span>f(t, y) =</span>
+        <input id="expr" type="text" spellcheck="false" placeholder="e.g. sin(t) - y" />
+      </label>
+      <p class="hint">Use <code>t</code>, <code>y</code> and Math functions: <code>sin, cos, exp, sqrt, pow</code>…</p>
+
+      <div class="grid-2">
+        <label class="field"><span>t₀</span><input id="t0" type="number" step="any" /></label>
+        <label class="field"><span>y₀</span><input id="y0" type="number" step="any" /></label>
+        <label class="field"><span>t end</span><input id="tEnd" type="number" step="any" /></label>
+        <label class="field"><span>step h</span><input id="h" type="number" step="any" min="0" /></label>
+      </div>
+
+      <fieldset class="methods">
+        <legend>Methods</legend>
+        <label><input type="checkbox" class="method" value="euler" checked /> <span class="sw" data-k="euler"></span> Euler</label>
+        <label><input type="checkbox" class="method" value="heun" checked /> <span class="sw" data-k="heun"></span> Heun (RK2)</label>
+        <label><input type="checkbox" class="method" value="taylor2" checked /> <span class="sw" data-k="taylor2"></span> Taylor (order 2)</label>
+        <label><input type="checkbox" class="method" value="rk4" checked /> <span class="sw" data-k="rk4"></span> Runge–Kutta (RK4)</label>
+      </fieldset>
+
+      <button id="solve" class="btn">Solve &amp; Compare</button>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+      <div class="card">
+        <h2>Solution curves</h2>
+        <div class="chart-wrap"><canvas id="solutionChart"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h2>Absolute error vs <span id="refLabel">exact</span></h2>
+        <p id="refNote" class="hint"></p>
+        <div class="chart-wrap"><canvas id="errorChart"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h2>Results table</h2>
+        <div class="table-wrap">
+          <table id="results">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Error summary</h2>
+        <div class="table-wrap">
+          <table id="summary">
+            <thead><tr><th>Method</th><th>Max abs error</th><th>Final abs error</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
