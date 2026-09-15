@@ -1,4 +1,5 @@
 A project built for CSE-4746	Numerical Methods Lab.
+
 Features:
 Euler's Method: First-order explicit single-step method for basic numerical approximation.
 
